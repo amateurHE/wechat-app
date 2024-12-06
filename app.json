@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/work/work"
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "空间",
+    "navigationBarBackgroundColor": "#123412",
+    "enablePullDownRefresh": true,
+    "backgroundColor": "#dfdfdf",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "tabBar": {
+    "color": "#f3514f",
+    "backgroundColor": "#dfdfdf",
+    "list": [
+      {
+        "text": "登录",
+        "pagePath": "pages/index/index"
+      },
+      {
+        "text": "日志",
+        "pagePath": "pages/logs/logs"
+      },
+      {
+        "text": "页面",
+        "pagePath": "pages/work/work"
+      }]
+  }
+}
