@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/work/work"
+    "pages/work/work",
+    "pages/game/game"
   ],
   "window": {
     "navigationBarTextStyle": "white",
@@ -30,6 +31,10 @@
       {
         "text": "页面",
         "pagePath": "pages/work/work"
+      },
+      {
+        "text": "推箱子",
+        "pagePath": "pages/game/game"
       }]
   }
 }

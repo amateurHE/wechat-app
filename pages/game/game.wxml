@@ -1,0 +1,35 @@
+<view class="game-container">
+  <view class="game-header">
+    <text>关卡: {{level}}/{{maxLevel}}</text>
+    <text>移动次数: {{moves}}</text>
+  </view>
+
+  <view class="game-board">
+    <view wx:for="{{map}}" wx:for-item="row" wx:for-index="y" wx:key="y" class="row">
+      <view wx:for="{{row}}" wx:for-index="x" wx:key="x"
+            class="cell {{item === 1 ? 'wall' : 'floor'}}">
+        <view wx:if="{{player.x === x && player.y === y}}" class="player"></view>
+        <view wx:if="{{isBoxOnCell(x, y)}}" class="box {{isBoxOnTarget(x, y) ? 'box-on-target' : ''}}">
+        </view>
+        <view wx:if="{{isTargetOnCell(x, y) && !isBoxOnCell(x, y)}}" class="target">
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="controls">
+    <view class="control-row">
+      <button bindtap="onMove" data-direction="up">上</button>
+    </view>
+    <view class="control-row">
+      <button bindtap="onMove" data-direction="left">左</button>
+      <button bindtap="onMove" data-direction="right">右</button>
+    </view>
+    <view class="control-row">
+      <button bindtap="onMove" data-direction="down">下</button>
+    </view>
+    <view class="control-row">
+      <button bindtap="resetLevel" type="warn">重置关卡</button>
+    </view>
+  </view>
+</view>
