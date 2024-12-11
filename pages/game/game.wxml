@@ -9,10 +9,15 @@
       <view wx:for="{{row}}" wx:for-index="x" wx:key="x"
             class="cell {{item === 1 ? 'wall' : 'floor'}}">
         <view wx:if="{{player.x === x && player.y === y}}" class="player"></view>
-        <view wx:if="{{isBoxOnCell(x, y)}}" class="box {{isBoxOnTarget(x, y) ? 'box-on-target' : ''}}">
-        </view>
-        <view wx:if="{{isTargetOnCell(x, y) && !isBoxOnCell(x, y)}}" class="target">
-        </view>
+
+        <block wx:for="{{boxes}}">
+          <view wx:if="{{item.x === x && item.y === y}}" class="box {{isBoxOnTarget(x, y) ? 'box-on-target' : ''}}">
+          </view>
+        </block>
+        <block wx:for="{{targets}}">
+          <view wx:if="{{(item.x === x && item.y === y) && !isBoxOnCell(x, y)}}" class="target">
+          </view>
+        </block>
       </view>
     </view>
   </view>

@@ -40,7 +40,7 @@ Page({
       ],
       player: { x: 1, y: 1 },
       boxes: [{ x: 3, y: 2 }, { x: 4, y: 4 }],
-      targets: [{ x: 6, y: 2 }, { x: 6, y: 4 }]
+      targets: [{ x: 6, y: 2 }, { x: 1, y: 4 }]
     },
     // 第3关 - 迷宫推箱
     {
@@ -48,9 +48,9 @@ Page({
         [1, 1, 1, 1, 1, 1, 1, 1],
         [1, 0, 0, 0, 1, 0, 0, 1],
         [1, 0, 1, 0, 0, 0, 0, 1],
-        [1, 0, 1, 1, 1, 0, 1, 1],
+        [1, 0, 0, 1, 1, 0, 1, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 0, 1, 1, 1, 0, 1],
+        [1, 1, 0, 1, 1, 0, 0, 1],
         [1, 0, 0, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1]
       ],
@@ -119,15 +119,16 @@ Page({
       levelComplete: false
     });
   },
-
-  isBoxOnCell(x, y) {
-    return this.data.boxes.some(box => box.x === x && box.y === y);
-  },
-  isBoxOnTarget(x, y) {
-    return this.data.targets.some(target => target.x === x && target.y === y);
-  },
-  isTargetOnCell(x, y) {
-    return this.data.targets.some(target => target.x === x && target.y === y);
+  methods:{
+    isBoxOnCell(x, y) {
+      return this.data.boxes.some(box => box.x === x && box.y === y);
+    },
+    isBoxOnTarget(x, y) {
+      return this.data.targets.some(target => target.x === x && target.y === y);
+    },
+    isTargetOnCell(x, y) {
+      return this.data.targets.some(target => target.x === x && target.y === y);
+    }
   },
 
   // 重置当前关卡

@@ -51,7 +51,7 @@
   height: 90%;
   left: 5%;
   top: 5%;
-  background-color: #964B00;
+  background-color: #005cff;
 }
 
 .box-on-target {

@@ -22,19 +22,27 @@
     "list": [
       {
         "text": "登录",
-        "pagePath": "pages/index/index"
+        "pagePath": "pages/index/index",
+        "iconPath": "images/index.png",
+        "selectedIconPath": "images/index_s.png"
       },
       {
         "text": "日志",
-        "pagePath": "pages/logs/logs"
+        "pagePath": "pages/logs/logs",
+        "iconPath": "images/logs.png",
+        "selectedIconPath": "images/logs_s.png"
       },
       {
         "text": "页面",
-        "pagePath": "pages/work/work"
+        "pagePath": "pages/work/work",
+        "iconPath": "images/work.png",
+        "selectedIconPath": "images/work_s.png"
       },
       {
         "text": "推箱子",
-        "pagePath": "pages/game/game"
+        "pagePath": "pages/game/game",
+        "iconPath": "images/game.png",
+        "selectedIconPath": "images/game_s.png"
       }]
   }
 }
