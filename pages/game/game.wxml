@@ -1,40 +1,20 @@
-<view class="game-container">
-  <view class="game-header">
-    <text>关卡: {{level}}/{{maxLevel}}</text>
-    <text>移动次数: {{moves}}</text>
+<view class = 'container'>
+  <!--关卡提示-->
+  <view class='title'>第{{level}}关</view>
+  <!--游戏画布-->
+  <view class="outer">
+    <canvas canvas-id='myCanvas'></canvas>
   </view>
-
-  <view class="game-board">
-    <view wx:for="{{map}}" wx:for-item="row" wx:for-index="y" wx:key="y" class="row">
-      <view wx:for="{{row}}" wx:for-index="x" wx:key="x"
-            class="cell {{item === 1 ? 'wall' : 'floor'}}">
-        <view wx:if="{{player.x === x && player.y === y}}" class="player"></view>
-
-        <block wx:for="{{boxes}}">
-          <view wx:if="{{item.x === x && item.y === y}}" class="box {{isBoxOnTarget(x, y) ? 'box-on-target' : ''}}">
-          </view>
-        </block>
-        <block wx:for="{{targets}}">
-          <view wx:if="{{(item.x === x && item.y === y) && !isBoxOnCell(x, y)}}" class="target">
-          </view>
-        </block>
-      </view>
+  ​
+  <!--方向键-->
+  <view class='btnBox'>
+    <button type = 'warn' bindtap='up'>↑</button >
+    <view>
+      <button type = 'warn' bindtap='left'>←</button>
+      <button type = 'warn' bindtap='down'>↓</button>
+      <button type = 'warn' bindtap='right'>→</button>
     </view>
   </view>
-
-  <view class="controls">
-    <view class="control-row">
-      <button bindtap="onMove" data-direction="up">上</button>
-    </view>
-    <view class="control-row">
-      <button bindtap="onMove" data-direction="left">左</button>
-      <button bindtap="onMove" data-direction="right">右</button>
-    </view>
-    <view class="control-row">
-      <button bindtap="onMove" data-direction="down">下</button>
-    </view>
-    <view class="control-row">
-      <button bindtap="resetLevel" type="warn">重置关卡</button>
-    </view>
-  </view>
+  <!--“重新开始”按钮 -->
+  <button type='warn' bindtap='restartGame'>重新开始</button>
 </view>

@@ -1,226 +1,256 @@
+// pages/game/game.js
+var data = require('../../utils/data.js')
+//地图图层数据
+var map = [
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]
+]
+//箱子图层数据
+var box = [
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0]
+]
+var w=40
+var row=0
+var col=0
 Page({
-  data: {
-    map: [],
-    player: { x: 0, y: 0 },
-    boxes: [],
-    targets: [],
-    level: 1,
-    moves: 0,
-    levelComplete: false,
-    maxLevel: 5
-  },
+/**
+ * 页面的初始数据
+ */
+data: {
+  level:1
+},
 
-  // 关卡数据
-  levelData: [
-    // 第1关 - 简单的开始
-    {
-      map: [
-        [1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1]
-      ],
-      player: { x: 1, y: 1 },
-      boxes: [{ x: 3, y: 3 }],
-      targets: [{ x: 5, y: 5 }]
-    },
-    // 第2关 - 双箱挑战
-    {
-      map: [
-        [1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 1, 0, 0, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 1, 0, 0, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1]
-      ],
-      player: { x: 1, y: 1 },
-      boxes: [{ x: 3, y: 2 }, { x: 4, y: 4 }],
-      targets: [{ x: 6, y: 2 }, { x: 1, y: 4 }]
-    },
-    // 第3关 - 迷宫推箱
-    {
-      map: [
-        [1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 1, 0, 0, 1],
-        [1, 0, 1, 0, 0, 0, 0, 1],
-        [1, 0, 0, 1, 1, 0, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 0, 1, 1, 0, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1]
-      ],
-      player: { x: 1, y: 1 },
-      boxes: [{ x: 2, y: 4 }, { x: 4, y: 4 }],
-      targets: [{ x: 6, y: 1 }, { x: 6, y: 6 }]
-    },
-    // 第4关 - 三箱挑战
-    {
-      map: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 1, 1, 0, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 1, 1, 0, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]
-      ],
-      player: { x: 1, y: 1 },
-      boxes: [{ x: 3, y: 3 }, { x: 4, y: 3 }, { x: 5, y: 3 }],
-      targets: [{ x: 3, y: 5 }, { x: 4, y: 5 }, { x: 5, y: 5 }]
-    },
-    // 第5关 - 终极挑战
-    {
-      map: [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 1, 0, 0, 0, 1],
-        [1, 0, 1, 0, 0, 0, 1, 0, 1],
-        [1, 0, 0, 1, 0, 1, 0, 0, 1],
-        [1, 1, 0, 0, 0, 0, 0, 1, 1],
-        [1, 0, 0, 1, 0, 1, 0, 0, 1],
-        [1, 0, 1, 0, 0, 0, 1, 0, 1],
-        [1, 0, 0, 0, 1, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]
-      ],
-      player: { x: 4, y: 4 },
-      boxes: [
-        { x: 2, y: 2 },
-        { x: 6, y: 2 },
-        { x: 2, y: 6 },
-        { x: 6, y: 6 }
-      ],
-      targets: [
-        { x: 2, y: 3 },
-        { x: 6, y: 3 },
-        { x: 2, y: 5 },
-        { x: 6, y: 5 }
-      ]
-    }
-  ],
-
-  onLoad() {
-    this.initLevel(this.data.level);
-  },
-
-  initLevel(level) {
-    const levelIndex = level - 1;
-    const currentLevel = this.levelData[levelIndex];
-    
-    this.setData({
-      map: currentLevel.map,
-      player: currentLevel.player,
-      boxes: currentLevel.boxes,
-      targets: currentLevel.targets,
-      moves: 0,
-      levelComplete: false
-    });
-  },
-  methods:{
-    isBoxOnCell(x, y) {
-      return this.data.boxes.some(box => box.x === x && box.y === y);
-    },
-    isBoxOnTarget(x, y) {
-      return this.data.targets.some(target => target.x === x && target.y === y);
-    },
-    isTargetOnCell(x, y) {
-      return this.data.targets.some(target => target.x === x && target.y === y);
-    }
-  },
-
-  // 重置当前关卡
-  resetLevel() {
-    this.initLevel(this.data.level);
-  },
-
-  // 下一关
-  nextLevel() {
-    if (this.data.level < this.data.maxLevel) {
-      this.setData({
-        level: this.data.level + 1
-      }, () => {
-        this.initLevel(this.data.level);
-      });
-    } else {
-      wx.showToast({
-        title: '恭喜通关！',
-        icon: 'success'
-      });
-    }
-  },
-
-  onMove(e) {
-    const direction = e.currentTarget.dataset.direction;
-    let { player, boxes, map } = this.data;
-    let newX = player.x;
-    let newY = player.y;
-
-    switch (direction) {
-      case 'up': newY--; break;
-      case 'down': newY++; break;
-      case 'left': newX--; break;
-      case 'right': newX++; break;
-    }
-
-    if (this.canMove(newX, newY)) {
-      const boxIndex = this.getBoxAt(newX, newY);
-      if (boxIndex !== -1) {
-        const boxNewX = newX + (newX - player.x);
-        const boxNewY = newY + (newY - player.y);
-        
-        if (this.canMove(boxNewX, boxNewY) && !this.getBoxAt(boxNewX, boxNewY) !== -1) {
-          const newBoxes = [...boxes];
-          newBoxes[boxIndex] = { x: boxNewX, y: boxNewY };
-          
-          this.setData({
-            player: { x: newX, y: newY },
-            boxes: newBoxes,
-            moves: this.data.moves + 1
-          });
-
-          this.checkWin();
-        }
-      } else {
-        this.setData({
-          player: { x: newX, y: newY },
-          moves: this.data.moves + 1
-        });
+/**
+ 自定义函数 -- 初始化地图数据
+ */
+initMap: function(level){
+  //读取原始的游戏地图数据
+  let mapData = data.maps[level]
+  //使用双重 for 循环记录地图数据
+  for (var i = 0; i<8;i++){
+    for (var j=0; j<8;j++){
+      box[i][j] = 0
+      map[i][j] = mapData[i][j]
+      if (mapData[i][j]==4){
+        box[i][j]=4
+        map[i][j] = 2
+      }
+      else if (mapData[i][j] == 5)
+      {
+        map[i][j] = 2
+        //记录小鸟的当前行和列
+        row = i
+        col=j
       }
     }
-  },
-
-  canMove(x, y) {
-    return this.data.map[y] && this.data.map[y][x] !== 1;
-  },
-
-  getBoxAt(x, y) {
-    return this.data.boxes.findIndex(box => box.x === x && box.y === y);
-  },
-
-  checkWin() {
-    const { boxes, targets } = this.data;
-    const isComplete = targets.every(target => 
-      boxes.some(box => box.x === target.x && box.y === target.y)
-    );
-
-    if (isComplete) {
-      this.setData({ levelComplete: true });
-      wx.showModal({
-        title: '恭喜',
-        content: `第${this.data.level}关完成！是否进入下一关？`,
-        confirmText: '下一关',
-        cancelText: '重玩',
-        success: (res) => {
-          if (res.confirm) {
-            this.nextLevel();
-          } else {
-            this.resetLevel();
-          }
-        }
-      });
+  }
+},
+/**
+ 自定义函数 -- 绘制地图
+ */
+drawCanvas: function(){
+  let ctx = this.ctx
+  //清空画布
+  ctx.clearRect(0,0, 320,320)
+  //使用双重 for 循环绘制 8x8 的地图
+  for (var i = 0; i<8; i++){
+    for (var j=0; j<8;j++){
+      //默认是道路
+      let img = 'ice'
+      if (map[i][j]== 1){
+        img = 'stone'
+      } else if (map[i][j] == 3){
+        img = 'pig'
+      }
+      //绘制地图
+      ctx.drawImage('/images/icons/'+ img + '.png', j * w, i * w, w, w)
+      if (box[i][j]==4){
+        //叠加绘制箱子
+        ctx.drawImage('/images/icons/box.png',j*w,i *w, w, w)
+      }
     }
   }
-}); 
+  //叠加绘制小鸟
+  ctx.drawImage('/images/icons/bird.png',col * w, row*w, w, w)
+  ctx.draw()
+},
+
+/**
+ 自定义函数--方向键：上
+ */
+up: function(){
+  //不在最顶端才考虑上移
+  if (row > 0) {
+    //如果上方不是墙或箱子，可以移动小鸟
+    if (map[row - 1][col] != 1 && box[row -1][col]!= 4){
+      //更新当前小鸟的坐标
+      row = row - 1
+    }
+    //如果上方是箱子
+    else if (box[row - 1][col]==4){
+      //箱子不在最顶端才能考虑推动
+      if (row - 1>0){
+        //如果箱子上方不是墙或箱子
+        if (map[row - 2][col] != 1 && box[row - 2][col] != 4) {
+          box[row - 2][col]=4
+          box[row - 1][col]=0
+          //更新当前小鸟的坐标
+          row = row - 1
+        }
+      }
+    }
+    //重新绘制地图
+    this.drawCanvas()
+    this.checkWin()
+  }
+},
+/**
+ * 自定义函数--方向键：下
+ */
+down: function(){
+  //不在最底端才考虑下移
+  if(row < 7){
+    //如果下方不是墙或箱子，可以移动小鸟
+    if (map[row + 1][col] != 1 && box[row + 1][col] != 4){
+      //更新当前小鸟的坐标
+      row = row + 1
+    }
+    //如果下方是箱子
+    else if (box[row + 1][col]== 4){
+      //箱子不在最底端才能考虑推动
+      if (row + 1<7) {
+        //如果箱子下方不是墙或箱子
+        if (map[row + 2][col] != 1 && box[row + 2][col] != 4){
+          box[row + 2][col] = 4
+          box[row + 1][col] = 0
+          //更新当前小鸟的坐标
+          row=row + 1
+        }
+      }
+    }
+    //重新绘制地图
+    this.drawCanvas()
+    this.checkWin()
+  }
+},
+/**
+ * 自定义函数 -- 方向键：左
+ */
+left: function(){
+  //不在最左侧才考虑左移
+  if (col > 0) {
+    //如果左侧不是墙或箱子, 可以移动小鸟
+    if (map[row][col - 1] != 1 && box[row][col - 1] != 4){
+      //更新当前小鸟的坐标
+      col = col - 1
+    }
+    //如果左侧是箱子
+    else if (box[row][col -1] ==4){
+      //箱子不在最左侧才能考虑推动
+      if (col - 1> 0){
+        //如果箱子左侧不是墙或箱子
+        if (map[row][col - 2] != 1 && box[row][col - 2] != 4){
+          box[row][col - 2] = 4
+          box[row][col - 1] = 0
+          //更新当前小鸟的坐标
+          col = col - 1
+        }
+      }
+    }
+    //重新绘制地图
+    this.drawCanvas()
+    this.checkWin()
+  }
+},
+/**
+ * 自定义函数--方向键：右
+ */
+right: function(){
+  //不在最右侧才考虑右移
+  if(col < 7){
+    //如果右方不是墙或箱子，可以移动小鸟
+    if (map[row][col+1] != 1 && box[row][col+1] != 4){
+      //更新当前小鸟的坐标
+      col=col+1
+    }
+    //如果右侧是箱子
+    else if (box[row][col+1] ==4){
+      //箱子不在最右侧才能考虑推动
+      if (col + 1<7){
+        //如果箱子右侧不是墙或箱子
+        if (map[row][col + 2] != 1 && box[row][col + 2] != 4){
+          box[row][col + 2] = 4
+          box[row][col + 1] = 0
+          //更新当前小鸟的坐标
+          col = col + 1
+        }
+      }
+    }
+    //重新绘制地图
+    this.drawCanvas()
+    this.checkWin()
+  }
+},
+
+/**
+ * 自定义函数--判断游戏是否成功
+ */
+isWin: function(){
+  //使用双重 for 循环遍历整个数组
+  for (var i = 0; i<8; i++){
+    for (var j= 0;j<8;j++){
+      //如果有箱子没在终点
+      if (box[i][j] == 4 && map[i][j] != 3) {
+        //返回false，表示游戏尚未成功
+        return false
+      }
+    }
+  }
+  //返回 true, 表示游戏成功
+  return true
+},
+
+/**
+ *  自定义函数 -- 游戏成功处理
+ */
+checkWin: function(){
+  if (this.isWin()){
+    wx.showModal({
+      title:'恭喜',
+      content:'游戏成功!',
+      showCancel:false
+    })
+  }
+},
+
+/**
+ * 生命周期函数--监听页面加载
+ */
+onLoad:function(options) {
+  let level=options.level
+  this.setData({
+    level:parseInt(level)+1
+  })
+  this.ctx=wx.createCanvasContext('myCanvas')
+  this.initMap(level)
+  this.drawCanvas()
+},
+
+  restartGame:function(){
+    this.initMap(this.data.level-1)
+    this.drawCanvas()
+  }
+})

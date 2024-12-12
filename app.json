@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/work/work",
-    "pages/game/game"
+    "pages/game/game",
+    "pages/gameindex/gameindex"
   ],
   "window": {
     "navigationBarTextStyle": "white",
@@ -40,7 +41,7 @@
       },
       {
         "text": "推箱子",
-        "pagePath": "pages/game/game",
+        "pagePath": "pages/gameindex/gameindex",
         "iconPath": "images/game.png",
         "selectedIconPath": "images/game_s.png"
       }]
