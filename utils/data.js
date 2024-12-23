@@ -1,3 +1,22 @@
+
+const formatTime = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return `${[year, month, day].map(formatNumber).join('/')} ${[hour, minute, second].map(formatNumber).join(':')}`
+}
+
+const formatNumber = n => {
+  n = n.toString()
+  return n[1] ? n : `0${n}`
+}
+
+
+
 //========================================
 //地图数据map1~map4
 //地图数据：1为墙、2为路、3为终点、4为箱子、5为人物、0为墙的外围
@@ -48,5 +67,8 @@ var map4 = [
 ]
 
 module.exports={
+  formatTime,
   maps:[map1,map2,map3,map4]
 }
+
+

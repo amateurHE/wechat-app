@@ -8,13 +8,13 @@
   ​
   <!--方向键-->
   <view class='btnBox'>
-    <button type = 'warn' bindtap='up'>↑</button >
+    <button type = 'warn' bind:tap='up'>↑</button >
     <view>
-      <button type = 'warn' bindtap='left'>←</button>
-      <button type = 'warn' bindtap='down'>↓</button>
-      <button type = 'warn' bindtap='right'>→</button>
+      <button type = 'warn' bind:tap='left'>←</button>
+      <button type = 'warn' bind:tap='down'>↓</button>
+      <button type = 'warn' bind:tap='right'>→</button>
     </view>
   </view>
   <!--“重新开始”按钮 -->
-  <button type='warn' bindtap='restartGame'>重新开始</button>
+  <button type='warn' bind:tap='restartGame'>重新开始</button>
 </view>

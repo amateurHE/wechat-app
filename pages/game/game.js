@@ -245,6 +245,7 @@ onLoad:function(options) {
     level:parseInt(level)+1
   })
   this.ctx=wx.createCanvasContext('myCanvas')
+  
   this.initMap(level)
   this.drawCanvas()
 },

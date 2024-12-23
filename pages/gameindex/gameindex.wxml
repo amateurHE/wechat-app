@@ -3,7 +3,7 @@
 <view class='title'>游戏选关</view>
 <!--关卡-->
 <view class='levelBox'>
-  <view class='box' wx:for='{{levels}}' wx:key="levels{{index}}" bindtap='chooseLevel' data-level='{{index}}'>
+  <view class='box' wx:for='{{levels}}' wx:key="levels{{index}}" bind:tap='chooseLevel' data-level='{{index}}'>
   <image src='/images/{{item}}'></image>
   <text>第{{index+1}}关</text>
   </view>

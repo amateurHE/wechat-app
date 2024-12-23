@@ -6,9 +6,9 @@ Page({
   data: {
     levels:[
       'level01.png',
-      'level02.png',
-      'level03.png',
-      'level04.png'
+      'level01.png',
+      'level01.png',
+      'level01.png'
     ]
   },
   chooseLevel:function(e){
